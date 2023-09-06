@@ -2,12 +2,9 @@ import { Box, IconButton, useTheme } from "@mui/material";
 import {  Button,  } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
-import InputBase from "@mui/material/InputBase";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import EmojiPeopleSharpIcon from '@mui/icons-material/EmojiPeopleSharp';
-import SearchIcon from "@mui/icons-material/Search";
 
 const Topbar = () => {
   const theme = useTheme();
@@ -40,9 +37,6 @@ const Topbar = () => {
           ) : (
             <LightModeOutlinedIcon />
           )}
-        </IconButton>
-        <IconButton>
-          <EmojiPeopleSharpIcon  />
         </IconButton>
       </Box>
     </Box>
