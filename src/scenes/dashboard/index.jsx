@@ -6,8 +6,9 @@ import Header from '../../components/Header';
 import LineChart from '../../components/LineChart';
 import BarChart from '../../components/BarChart';
 import ProgressCircle from '../../components/ProgressCircle';
-
-import { useState } from 'react'; 
+import { useState } from 'react';
+import Grid from '@mui/material/Grid';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -16,6 +17,8 @@ const Dashboard = () => {
   const waterType = 'fresh';
 
   const textColor = waterType === 'fresh' ? colors.grey[100] : colors.green[500];
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box m="20px">
@@ -48,78 +51,72 @@ const Dashboard = () => {
               padding: '10px 20px',
             }}
           >
-            <DownloadOutlinedIcon sx={{ mr: '10px' }} />
+            <DownloadOutlinedIcon sx={{ mr: '10px' }}/>
             Download pdf
           </Button>
         </Box>
       </Box>
-
-      {/* GRID & CHARTS */}
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
-      >
-        <Box gridColumn="span 8" gridRow="span 2" backgroundColor={colors.primary[400]}>
-          <Box
-            mt="25px"
-            p="0 30px"
-            display="flex "
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box width='30rem'>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={8}>
+          <Box mt="25px" p="0 30px" display="flex " justifyContent="space-between" alignItems="center">
+            <Box width={isSmallScreen ? '100%' : '30rem'}>
               <Typography
                 variant="h3"
                 fontWeight="bold"
                 fontFamily="Arial, sans-serif"
-                color={textColor} // Change the text color here
+                color={textColor}
+                sx={{ fontSize: isSmallScreen ? '2rem' : '3rem' }}
               >
                 Water Supply
               </Typography>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[500]}
-              >
+              <Typography variant="h3" fontWeight="bold" color={colors.greenAccent[500]}>
                 342.32
               </Typography>
             </Box>
             <Box>
               <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: '26px', color: colors.greenAccent[500] }}
-                />
+                <DownloadOutlinedIcon sx={{ fontSize: '26px', color: colors.greenAccent[500] }} />
               </IconButton>
             </Box>
           </Box>
-          <Box height="250px" m="-20px 0 0 0">
+          <Box height={isSmallScreen ? 'auto' : '250px'} m={isSmallScreen ? '0' : '-20px 0 0 0'}>
             <LineChart isDashboard={true} />
           </Box>
-        </Box>
-        <Box gridColumn="span 4" gridRow="span 2" backgroundColor={colors.primary[400]} p="30px">
-          <Typography
-            variant="h3"
-            fontWeight="bold"
-            fontFamily="Arial, sans-serif"
-            color={'white'} 
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Box
+            backgroundColor={colors.primary[400]}
+            p={isSmallScreen ? '20px' : '30px'}
           >
-            Water Reserve
-          </Typography>
-          <Box display="flex" flexDirection="column" alignItems="center" mt="25px">
-            <ProgressCircle size="130" progress={progress} />
-            <Typography variant="h5" color={colors.greenAccent[500]} sx={{ mt: '15px' }}>
-              {progress}%
+            <Typography
+              variant="h3"
+              fontWeight="bold"
+              fontFamily="Arial, sans-serif"
+              color={isSmallScreen ? 'white' : undefined}
+              sx={{ fontSize: isSmallScreen ? '2rem' : '3rem' }}
+            >
+              Water Reserve
             </Typography>
+            <Box display="flex" flexDirection="column" alignItems="center" mt="25px">
+              <ProgressCircle size={isSmallScreen ? '80' : '130'} progress={progress} />
+              <Typography variant="h5" color={colors.greenAccent[500]} sx={{ mt: '15px' }}>
+                {progress}%
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-        <Box gridColumn="span 4" gridRow="span 2" backgroundColor={colors.primary[400]} width='50rem' height='20rem'>
-          <Box height="20rem" mt="">
-            <BarChart isDashboard={true} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Box
+            backgroundColor={colors.primary[400]}
+            width={isSmallScreen ? '100%' : '50rem'}
+            height={isSmallScreen ? 'auto' : '20rem'}
+          >
+            <Box height={isSmallScreen ? 'auto' : '20rem'} mt="">
+              <BarChart isDashboard={true} />
+            </Box>
           </Box>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
